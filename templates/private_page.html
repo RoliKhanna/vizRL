@@ -6,7 +6,7 @@
     <h4>You can take notes here. Only yourself can access them. They will be removed when your account is removed.</h4>
 
     <hr>
-    
+
     <h3>Add Note</h3>
     <div class="form-group">
       <label for="textArea" class="col-lg-3 control-label">Note to Take</label>
@@ -38,20 +38,20 @@
                        <td> {{ note }} </td>
                        <td><a href={{act}}>Delete</a></td>
                     </tr>
-                    
+
             {% endfor %}
         </table>
     {% endif %}
 
     <hr>
-    <h3>Upload Image</h3>
+    <h3>Upload Model</h3>
     <form method='post' action='/upload_image' enctype=multipart/form-data>
       <p><input type=file name=file>
          <input type=submit value=Upload>
     </form>
 
     {% if images %}
-        <h3>Your Images</h3>
+        <h3>Your Models</h3>
         <table class="table small">
             <thead>
                 <tr>
@@ -68,7 +68,7 @@
                        <td> {{ image_name }} </td>
                        <td><a href={{act}}>Delete</a></td>
                     </tr>
-                    
+
             {% endfor %}
         </table>
     {% endif %}

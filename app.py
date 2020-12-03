@@ -2,17 +2,51 @@ import os
 import datetime
 import hashlib
 from flask import Flask, session, url_for, redirect, render_template, request, abort, flash
+from flask_session import Session
 from database import list_users, verify, delete_user_from_db, add_user
 from database import read_note_from_db, write_note_into_db, delete_note_from_db, match_user_id_with_note_id
 from database import image_upload_record, list_images_for_user, match_user_id_with_image_uid, delete_image_from_db
 from werkzeug.utils import secure_filename
 
-
-
+SESSION_TYPE = 'filesystem'
 app = Flask(__name__)
-app.config.from_object('config')
+# app.config.from_object('config')
+app.config.from_object(__name__)
+Session(app)
 
+@app.route("/cartpoleimage", methods=['GET', 'POST', 'PUT']) # decorator
+def home(): # route handler function
+    # returning a response
+    return "Hello World!"
 
+@app.route("/getCartpoleimage")
+def getCartpoleimage():
+    session["counter"]+=20
+    return "cartpole_attention_map"+str(session["counter"])+".jpg"
+
+@app.route("/getMDPimage")
+def getMDPimage():
+    return "mdp.png"
+
+@app.route("/MDPlevel1")
+def MDPlevel1():
+    return "1.png"
+
+@app.route("/MDPlevel2")
+def MDPlevel2():
+    return "2.png"
+
+@app.route("/MDPlevel3")
+def MDPlevel3():
+    return "3.png"
+
+@app.route("/getRulesimage")
+def getRulesimage():
+    return "rules.png"
+
+@app.route("/getQimage")
+def getQimage():
+    return "qval_hist_plot_"+str(session["counter"])+".jpg"
 
 @app.errorhandler(401)
 def FUN_401(error):
@@ -44,6 +78,7 @@ def FUN_root():
 
 @app.route("/public/")
 def FUN_public():
+    session["counter"]=1
     return render_template("public_page.html")
 
 @app.route("/private/")
@@ -149,7 +184,7 @@ def FUN_login():
     id_submitted = request.form.get("id").upper()
     if (id_submitted in list_users()) and verify(id_submitted, request.form.get("pw")):
         session['current_user'] = id_submitted
-    
+
     return(redirect(url_for("FUN_root")))
 
 @app.route("/logout/")

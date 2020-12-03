@@ -1,7 +1,223 @@
 {% extends "layout.html" %}
-{% block page_title %}Public Page{% endblock %}
+{% block page_title %}Model Visualization in action{% endblock %}
 {% block body %}
     {{ super() }}
-    <img src="{{ url_for('static', filename='img/public.jpg') }}" class="img-circle" alt="Cinque Terre" width="304" height="236">
-    You can access this no matter whether you have logged in.
+    <!-- <img src="{{ url_for('static', filename='img/public.jpg') }}" class="img-circle" alt="Cinque Terre" width="304" height="236">
+    You can access this no matter whether you have logged in. -->
+
+    <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    </head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+      <TABLE border="1">
+      <COLGROUP>
+      <COL><COL align="char" char=".">
+      <THEAD>
+      <TR><TH><div class="fancy">Toggle:
+        <button id="buttonMDP">Original Rules</button>
+        <button id="buttonRules">Rules</button>
+        <button id="buttonQvalues">Score</button>
+      </div>
+        <TH><div class="fancy" style="background-color: #6EFF33;">Original MDP
+          <img src="" id="mdpimg" width="" height=""></img>
+          <button id="MDPlevel1">Level 1</button>
+          <button id="MDPlevel2">Level 2</button>
+          <button id="MDPlevel3">Level 3</button>
+        </div>
+      <TBODY>
+      <TR><TD><div class="fancy">Cartpole-in-action
+        <img src="" id="cpimg" width="" height=""></img>
+      </div>
+      <TD><div class="fancy" style="background-color: #FF5733;">Learned Rules
+        <img src="" id="rulesimg" width="" height=""></img>
+      </div>
+      <TR><TD><div class="fancy">
+        <i class="fa fa-backward" aria-hidden="true" style="font-size:36px;"></i>
+        <i class="fa fa-play-circle-o" id="play" aria-hidden="true" style="font-size:36px;"></i>
+        <i class="fa fa-forward" aria-hidden="true" style="font-size:36px;"></i>
+      </div>
+        <TD><div class="fancy" style="background-color: #D433FF;">Score Trend
+          <img src="" id="qimg" width="" height=""></img>
+        </div>
+      </TABLE>
+
+    <!-- <div class="fancy">Hi! This is the toggle box</div>
+    <div class="fancy">Hi! This is the Cartpole-in-action box
+      <iframe src="https://www.youtube.com/embed/watch?v=46wjA6dqxOM" width="" height=""></iframe>
+    </div>
+    <div class="fancy">Hi! This is the Q-values box</div>
+    <div class="fancy">Hi! This is the trends box</div> -->
+
+    <script>
+    $(document).ready(function() {
+       $('#buttonMDP').click(function(){
+           $.ajax({
+           url: "{{ url_for ('getMDPimage') }}",
+           type: "GET",
+           success: function(response) {
+               $("#mdpimg").attr('src', '/static/img/' + response);
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+         }
+         });
+       });
+    });
+
+    $(document).ready(function() {
+       $('#MDPlevel1').click(function(){
+           $.ajax({
+           url: "{{ url_for ('MDPlevel1') }}",
+           type: "GET",
+           success: function(response) {
+               $("#mdpimg").attr('src', '/static/img/mdp/' + response);
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+         }
+         });
+       });
+    });
+
+    $(document).ready(function() {
+       $('#MDPlevel2').click(function(){
+           $.ajax({
+           url: "{{ url_for ('MDPlevel2') }}",
+           type: "GET",
+           success: function(response) {
+               $("#mdpimg").attr('src', '/static/img/mdp/' + response);
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+         }
+         });
+       });
+    });
+
+    $(document).ready(function() {
+       $('#MDPlevel3').click(function(){
+           $.ajax({
+           url: "{{ url_for ('MDPlevel3') }}",
+           type: "GET",
+           success: function(response) {
+               $("#mdpimg").attr('src', '/static/img/mdp/' + response);
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+         }
+         });
+       });
+    });
+
+    $(document).ready(function() {
+       $('#buttonRules').click(function(){
+           $.ajax({
+           url: "{{ url_for ('getRulesimage') }}",
+           type: "GET",
+           success: function(response) {
+               $("#rulesimg").attr('src', '/static/img/' + response);
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+         }
+         });
+       });
+    });
+
+    $(document).ready(function() {
+       $('#buttonQvalues').click(function(){
+           $.ajax({
+           url: "{{ url_for ('getQimage') }}",
+           type: "GET",
+           success: function(response) {
+               $("#qimg").attr('src', '/static/img/' + response);
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+         }
+         });
+       });
+    });
+
+    $(document).ready(function() {
+       $('#play').click(function(){
+
+         $.ajax({
+         url: "{{ url_for ('getCartpoleimage') }}",
+         type: "GET",
+         success: function(response) {
+             $("#cpimg").attr('src', '/static/img/cartpole/attention/' + response);
+        },
+        error: function(xhr) {
+          //Do Something to handle error
+       }
+       });
+
+           $.ajax({
+           url: "{{ url_for ('getMDPimage') }}",
+           type: "GET",
+           success: function(response) {
+               $("#mdpimg").attr('src', '/static/img/' + response);
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+         }
+         });
+
+         $.ajax({
+         url: "{{ url_for ('getRulesimage') }}",
+         type: "GET",
+         success: function(response) {
+             $("#rulesimg").attr('src', '/static/img/' + response);
+        },
+        error: function(xhr) {
+          //Do Something to handle error
+       }
+       });
+
+       $.ajax({
+       url: "{{ url_for ('getQimage') }}",
+       type: "GET",
+       success: function(response) {
+           $("#qimg").attr('src', '/static/img/qval/' + response);
+      },
+      error: function(xhr) {
+        //Do Something to handle error
+     }
+     });
+
+       });
+    });
+
+  </script>
+
+    <style>
+      .fancy {
+    position: relative;
+    background-color: #FFC;
+    padding: 2rem;
+    text-align: center;
+    max-width: 1000px;
+    margin-top: 50px;
+  }
+
+  .fancy::before {
+    content: "";
+
+    position : absolute;
+    z-index  : -1;
+    bottom   : 15px;
+    right    : 5px;
+    width    : 100%;
+    top      : 80%;
+    max-width: 1000px;
+
+    box-shadow: 0px 13px 10px black;
+    transform: rotate(4deg);
+  }
+
+  </style>
+
 {% endblock %}
